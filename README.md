@@ -1,4 +1,4 @@
-# Analysis 1 - Omer Ege Ozyaba
+# Benchmarking Open Source Face Inference ML Models
 This analysis compares the performance of various open-source ML models to TikTok's proprietary ML models to see if they make the same mistakes outlined in original paper. The selected open-source ML models are tested using a subset of the FairFace dataset to benchmark their performance on infering age and gender for various ethnic groups.
 
 # Phase 1 #
