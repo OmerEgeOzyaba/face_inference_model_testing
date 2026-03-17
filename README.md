@@ -19,13 +19,13 @@ Then, I analyzed the **race x age**, **race x gender**, and **age x gender** con
 
 Thus, I came up with the following sampling strategy: get all images in the `0-2` and `more than 70` age bins regardless of race or gender, get all the images in the `3-9` and `10-19` age bins too since they're central to replicating the paper's findings about minors, and for all the other age bins, cap each race group at 50 images.
 
-The Python code I used to do this initial assesment can be found in [`dataset_analysis.py`](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/dataset_analysis.py) (to run it, you can install the dependencies listed in the [`requirements_ds_analysis.txt`](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/requirements_ds_analysis.txt)), and the visualization of the data distribution can be found in [`fairface_distributions.png`](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/figures/fairface_distributions.png).
+The Python code I used to do this initial assesment can be found in [`dataset_analysis.py`](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/dataset_analysis.py) (to run it, you can install the dependencies listed in the [`requirements_ds_analysis.txt`](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/requirements_ds_analysis.txt)), and the visualization of the data distribution can be found in [`fairface_distributions.png`](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/figures/fairface_distributions.png).
 
 # Phase 2 #
 
 ## ML Model Selection ##
 
-To justify the selection of the ML models I'm going to test and compare to the findings in West et al.'s paper, I searched ACM Digital Library, IEEE Xplore, and Google Scholar to scan the current literature. I found two papers that are useful for my analysis: [**HyperExtended LightFace: A Facial Attribute Analysis Framework (Serengil et al. 2021)**](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/references/HyperExtended_LightFace_A_Facial_Attribute_Analysis_Framework.pdf?ref_type=heads), and [**Deep Expectation of Real and Apparent Age from a Single Image Without Facial Landmarks (Rothe et al. 2018)**](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/references/Deep_Expectation_of_Real_and_Apparent_Age_from_a_Single_Image_Without_Facial_Landmarks.pdf?ref_type=heads). The first paper references the second paper. 
+To justify the selection of the ML models I'm going to test and compare to the findings in West et al.'s paper, I searched ACM Digital Library, IEEE Xplore, and Google Scholar to scan the current literature. I found two papers that are useful for my analysis: [**HyperExtended LightFace: A Facial Attribute Analysis Framework (Serengil et al. 2021)**](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/references/HyperExtended_LightFace_A_Facial_Attribute_Analysis_Framework.pdf?ref_type=heads), and [**Deep Expectation of Real and Apparent Age from a Single Image Without Facial Landmarks (Rothe et al. 2018)**](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/references/Deep_Expectation_of_Real_and_Apparent_Age_from_a_Single_Image_Without_Facial_Landmarks.pdf?ref_type=heads). The first paper references the second paper. 
 
 Rothe et al. (2018) introduce the DEX (Deep EXpectation) method and the IMDB-WIKI dataset (523,051 face images with both age and gender labels), achieving high accuracy in age estimation (MAE of 2.68 on MORPH) using a VGG-16 architecture with softmax expected value over 101 age bins. The authors also document that models trained on IMDB-WIKI exhibit systematic bias when tested on out-of-distribution data, a finding that directly motivates my analysis.
 
@@ -37,19 +37,19 @@ Therefore, I ended up finding two solid models to test and compare: DeepFace and
 
 # Phase 3 #
 
-The revised list of dependencies used for this phase can be found in [`requirements_final.txt`](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/requirements_final.txt).
+The revised list of dependencies used for this phase can be found in [`requirements_final.txt`](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/requirements_final.txt).
 
 ## Sampling ##
 
-Following the sampling strategy I outlined earlier, I collected samples from the FairFace validation split. I ran [`sampling.py`](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/sampling.py?ref_type=heads) and saved 4544 samples in [`fairface_sample.csv`](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/data/fairface_sample.csv).
+Following the sampling strategy I outlined earlier, I collected samples from the FairFace validation split. I ran [`sampling.py`](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/sampling.py?ref_type=heads) and saved 4544 samples in [`fairface_sample.csv`](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/data/fairface_sample.csv).
 
 ## Inference ##
 
-I ran DeepFace on the 4544 sampled images using [`deepface_inference.py`](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/deepface_inference.py). For each image, DeepFace predicted an age (continuous value), a dominant gender ("Man" or "Woman"), and a gender confidence score (probability distribution over both classes). Results were saved to [`deepface_results.csv`](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/data/deepface_results.csv). I also ran the yu4u/age-gender-estimation model using [`yu4u_inference.py`](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/yu4u_inference.py), which predicts age via softmax expected value over 101 age bins and gender via binary classification. Results were saved to [`yu4u_results.csv`](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/data/yu4u_results.csv). Both inference scripts were run on a Google Colab T4 GPU instance.
+I ran DeepFace on the 4544 sampled images using [`deepface_inference.py`](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/deepface_inference.py). For each image, DeepFace predicted an age (continuous value), a dominant gender ("Man" or "Woman"), and a gender confidence score (probability distribution over both classes). Results were saved to [`deepface_results.csv`](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/data/deepface_results.csv). I also ran the yu4u/age-gender-estimation model using [`yu4u_inference.py`](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/yu4u_inference.py), which predicts age via softmax expected value over 101 age bins and gender via binary classification. Results were saved to [`yu4u_results.csv`](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/data/yu4u_results.csv). Both inference scripts were run on a Google Colab T4 GPU instance.
 
 ## Statistical Analysis ##
 
-I ran [`statistical_analysis.py`](https://gitlab.cs.mcgill.ca/bhagya.chembakottu/comp555-project-2-group-1/-/blob/main/analysis1/statistical_analysis.py) to analyze the results from both models against the two key findings in West et al. (2024).
+I ran [`statistical_analysis.py`](https://github.com/OmerEgeOzyaba/face_inference_model_testing/blob/main/statistical_analysis.py) to analyze the results from both models against the two key findings in West et al. (2024).
 
 ### Finding 1 — Age Prediction Fails for Minors ###
 
